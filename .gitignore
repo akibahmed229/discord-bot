@@ -7,6 +7,10 @@
 venv/
 .direnv/
 
+
+# cache
+src/__pycache__/*
+
 # Logs
 *.log
 
