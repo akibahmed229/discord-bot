@@ -1,4 +1,12 @@
-.env*
-.venv/*
-.direnv/*
-/venv
+# Environment files
+.env
+.env.*
+
+# Python virtual environments
+.venv/
+venv/
+.direnv/
+
+# Logs
+*.log
+
