@@ -25,6 +25,7 @@
           pip
           discordpy
           python-dotenv
+          flask
         ]);
 
       # Add environment variables to the shell environment
