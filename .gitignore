@@ -1,0 +1,5 @@
+.envrc
+.env.local
+.venv/*
+.direnv/*
+venv/*
