@@ -3,7 +3,8 @@ from discord.ext import commands
 import logging
 from dotenv import load_dotenv
 import os
-from . import server
+import server
+
 
 # 🔹 Load environment variables (like DISCORD_TOKEN from .env)
 load_dotenv()
