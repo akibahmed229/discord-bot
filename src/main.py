@@ -11,7 +11,9 @@ from server import app
 load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
 host = os.getenv("HOST")
-port = os.getenv("PORT")
+port = int(os.getenv("PORT"), 80)
+announce_channel_id = int(os.getenv("ANNOUNCE_CHANNEL_ID", 0))
+
 
 # 🔹 Setup logging (saves bot logs to discord.log)
 handler = logging.FileHandler(filename="discord.log", encoding="utf-8", mode="w")
@@ -57,6 +59,22 @@ async def on_message(message):
 
     # Let other commands still work
     await bot.process_commands(message)
+
+
+# Event: When a member leaves or is removed
+@bot.event
+async def on_member_remove(member):
+    channel = bot.get_channel(announce_channel_id)
+    if channel:
+        await channel.send(f"👋 {member.mention} has left the server.")
+
+
+# Event: When a member is banned
+@bot.event
+async def on_member_ban(guild, user):
+    channel = bot.get_channel(announce_channel_id)
+    if channel:
+        await channel.send(f"❌ {user.mention} has been banned from the server.")
 
 
 # Command: !hello → greets the user
