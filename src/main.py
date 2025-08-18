@@ -60,7 +60,14 @@ async def on_message(message):
         return
 
     # Delete & warn if someone use bad word
-    if any(word in message.content.lower() for word in ["fuck" "suck" "dick"]):
+    if any(
+        word in message.content.lower()
+        for word in [
+            "fuck",
+            "suck",
+            "dick",
+        ]
+    ):
         await message.delete()
         await message.channel.send(f"{message.author.mention}, don't use that word! 😠")
 
