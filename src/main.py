@@ -107,12 +107,14 @@ async def on_message_delete(message):
     await message.channel.send(msg)
 
 
-@bot.command(help="Greets the user with a hello message")
+# Command: hello → greets the user
+@bot.command()
 async def hello(ctx):
     await ctx.send(f"Hello {ctx.author.mention}!")
 
 
-@bot.command(help="assign @user RoleName → Admins can assign roles")
+# Command: assign @user RoleName → Admins can assign roles
+@bot.command()
 @commands.has_role("Administrator")
 async def assign(ctx, member: discord.Member, *, role_name: str):
     role = discord.utils.get(ctx.guild.roles, name=role_name)
@@ -124,7 +126,8 @@ async def assign(ctx, member: discord.Member, *, role_name: str):
         await ctx.send("❌ Role doesn't exist")
 
 
-@bot.command(help="remove @user RoleName → Admins can remove roles")
+# Command: remove @user RoleName → Admins can remove roles
+@bot.command()
 async def remove(ctx, member: discord.Member, *, role_name: str):
     role = discord.utils.get(ctx.guild.roles, name=role_name)
 
@@ -160,7 +163,8 @@ async def reply(ctx):
     await ctx.reply("This is a reply to your message!")
 
 
-@bot.command(help="Creates a poll with 👍 and 👎 reactions")
+# Command: poll Question → Creates poll with 👍 👎 reactions
+@bot.command()
 async def poll(ctx, *, question):
     embed = discord.Embed(title="📊 Poll", description=question)
     poll_message = await ctx.send(embed=embed)
