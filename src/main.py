@@ -107,20 +107,14 @@ async def on_message_delete(message):
     await message.channel.send(msg)
 
 
-# Command: hello → greets the user
-@bot.command()
+@bot.command(help="Greets the user with a hello message")
 async def hello(ctx):
-    """ "Greets the user with a hello message"""
-
     await ctx.send(f"Hello {ctx.author.mention}!")
 
 
-# Command: assign @user RoleName → Admins can assign roles
-@bot.command()
+@bot.command(help="assign @user RoleName → Admins can assign roles")
 @commands.has_role("Administrator")
 async def assign(ctx, member: discord.Member, *, role_name: str):
-    """assign @user RoleName → Admins can assign roles"""
-
     role = discord.utils.get(ctx.guild.roles, name=role_name)
 
     if role:
@@ -130,11 +124,8 @@ async def assign(ctx, member: discord.Member, *, role_name: str):
         await ctx.send("❌ Role doesn't exist")
 
 
-# Command: remove @user RoleName → Admins can remove roles
-@bot.command()
+@bot.command(help="remove @user RoleName → Admins can remove roles")
 async def remove(ctx, member: discord.Member, *, role_name: str):
-    """remove @user RoleName → Admins can remove roles"""
-
     role = discord.utils.get(ctx.guild.roles, name=role_name)
 
     if role:
@@ -169,11 +160,8 @@ async def reply(ctx):
     await ctx.reply("This is a reply to your message!")
 
 
-# Command: poll Question → Creates poll with 👍 👎 reactions
-@bot.command()
+@bot.command(help="Creates a poll with 👍 and 👎 reactions")
 async def poll(ctx, *, question):
-    """Creates a poll with 👍 and 👎 reactions"""
-
     embed = discord.Embed(title="📊 Poll", description=question)
     poll_message = await ctx.send(embed=embed)
     await poll_message.add_reaction("👍")
