@@ -42,7 +42,13 @@ async def on_member_join(member):
     # Automatically assign "Member" role
     role = discord.utils.get(member.guild.roles, name="Member")
     if role:
-        await member.add_roles(role)
+        try:
+            await member.add_roles(role)
+            print(f"✅ Added role {role.name} to {member.name}")
+        except discord.Forbidden:
+            print("❌ Missing permissions to assign roles!")
+    else:
+        print("❌ Role 'Member' not found")
 
 
 #  Event: Watch every message
