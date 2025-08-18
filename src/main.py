@@ -189,4 +189,5 @@ if __name__ == "__main__":
     # Start Flask in a thread
     threading.Thread(target=run_flask).start()
 
-    # Sturt Discord bot
+    # Start Discord bot
+    bot.run(token=token, log_handler=handler, log_level=logging.DEBUG)
