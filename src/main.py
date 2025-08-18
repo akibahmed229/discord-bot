@@ -110,7 +110,7 @@ async def on_message_delete(message):
 # Command: hello → greets the user
 @bot.command()
 async def hello(ctx):
-    """"Greets the user with a hello message"""
+    """ "Greets the user with a hello message"""
 
     await ctx.send(f"Hello {ctx.author.mention}!")
 
@@ -133,7 +133,7 @@ async def assign(ctx, member: discord.Member, *, role_name: str):
 # Command: remove @user RoleName → Admins can remove roles
 @bot.command()
 async def remove(ctx, member: discord.Member, *, role_name: str):
-        """remove @user RoleName → Admins can remove roles"""
+    """remove @user RoleName → Admins can remove roles"""
 
     role = discord.utils.get(ctx.guild.roles, name=role_name)
 
