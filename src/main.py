@@ -110,6 +110,8 @@ async def on_message_delete(message):
 # Command: hello → greets the user
 @bot.command()
 async def hello(ctx):
+    """"Greets the user with a hello message"""
+
     await ctx.send(f"Hello {ctx.author.mention}!")
 
 
@@ -117,6 +119,8 @@ async def hello(ctx):
 @bot.command()
 @commands.has_role("Administrator")
 async def assign(ctx, member: discord.Member, *, role_name: str):
+    """assign @user RoleName → Admins can assign roles"""
+
     role = discord.utils.get(ctx.guild.roles, name=role_name)
 
     if role:
@@ -129,6 +133,8 @@ async def assign(ctx, member: discord.Member, *, role_name: str):
 # Command: remove @user RoleName → Admins can remove roles
 @bot.command()
 async def remove(ctx, member: discord.Member, *, role_name: str):
+        """remove @user RoleName → Admins can remove roles"""
+
     role = discord.utils.get(ctx.guild.roles, name=role_name)
 
     if role:
@@ -166,6 +172,8 @@ async def reply(ctx):
 # Command: poll Question → Creates poll with 👍 👎 reactions
 @bot.command()
 async def poll(ctx, *, question):
+    """Creates a poll with 👍 and 👎 reactions"""
+
     embed = discord.Embed(title="📊 Poll", description=question)
     poll_message = await ctx.send(embed=embed)
     await poll_message.add_reaction("👍")
