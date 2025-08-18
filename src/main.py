@@ -83,6 +83,13 @@ async def on_member_ban(guild, user):
         await channel.send(f"❌ {user.mention} has been banned from the server.")
 
 
+# Event: When a member delete a message
+@bot.event
+async def on_message_delete(message):
+    msg = f"{message.author} has deleted the last message"
+    await message.channel.send(msg)
+
+
 # Command: !hello → greets the user
 @bot.command()
 async def hello(ctx):
