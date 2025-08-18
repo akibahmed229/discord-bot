@@ -13,6 +13,7 @@ token = os.getenv("DISCORD_TOKEN")
 host = os.getenv("HOST")
 port = os.getenv("PORT")
 announce_channel_id = int(os.getenv("ANNOUNCE_CHANNEL_ID", 0))
+prefix = os.getenv("PREFIX")
 
 
 # 🔹 Setup logging (saves bot logs to discord.log)
@@ -24,7 +25,7 @@ intents.message_content = True  # Required to read message content
 intents.members = True  # Required for member join events
 
 # 🔹 Create bot with "!" as prefix (commands start with !)
-bot = commands.Bot(command_prefix="!", intents=intents)
+bot = commands.Bot(command_prefix=prefix, intents=intents)
 
 
 # Event: Bot is online
@@ -59,9 +60,25 @@ async def on_message(message):
         return
 
     # Delete & warn if someone swears
-    if "fuck" in message.content.lower():
+    if "fuck" "suck" "dick" in message.content.lower():
         await message.delete()
         await message.channel.send(f"{message.author.mention}, don't use that word! 😠")
+
+    # command Completion
+    if message.content.strip() == "!":
+        # Fetch all register command
+        commands_list = [cmd.name for cmd in bot.commands]
+
+        # formate nicly
+        commands_text = "\n".join([f"• !{c}" for c in commands_list])
+        embed = discord.Embed(
+            title="🤖 Available Commands",
+            description=commands_text,
+            color=discord.Colour.blue(),
+        )
+
+        await message.channel.send(embed=embed)
+        return  # stop process
 
     # Let other commands still work
     await bot.process_commands(message)
@@ -90,13 +107,13 @@ async def on_message_delete(message):
     await message.channel.send(msg)
 
 
-# Command: !hello → greets the user
+# Command: hello → greets the user
 @bot.command()
 async def hello(ctx):
     await ctx.send(f"Hello {ctx.author.mention}!")
 
 
-# Command: !assign @user RoleName → Admins can assign roles
+# Command: assign @user RoleName → Admins can assign roles
 @bot.command()
 @commands.has_role("Administrator")
 async def assign(ctx, member: discord.Member, *, role_name: str):
@@ -109,7 +126,7 @@ async def assign(ctx, member: discord.Member, *, role_name: str):
         await ctx.send("❌ Role doesn't exist")
 
 
-# Command: !remove @user RoleName → Admins can remove roles
+# Command: remove @user RoleName → Admins can remove roles
 @bot.command()
 async def remove(ctx, member: discord.Member, *, role_name: str):
     role = discord.utils.get(ctx.guild.roles, name=role_name)
@@ -121,7 +138,7 @@ async def remove(ctx, member: discord.Member, *, role_name: str):
         await ctx.send("❌ Role doesn't exist")
 
 
-# Command: !secret → Only Admins can use
+# Command: secret → Only Admins can use
 @bot.command()
 @commands.has_role("Administrator")
 async def secret(ctx):
@@ -134,19 +151,19 @@ async def secret_error(ctx, error):
         await ctx.send("❌ You don't have permission for this command!")
 
 
-# Command: !dm message → Sends DM to self
+# Command: dm message → Sends DM to self
 @bot.command()
 async def dm(ctx, *, msg):
     await ctx.author.send(f"You said: {msg}")
 
 
-# Command: !reply → Replies directly to user’s last message
+# Command: reply → Replies directly to user’s last message
 @bot.command()
 async def reply(ctx):
     await ctx.reply("This is a reply to your message!")
 
 
-# Command: !poll Question → Creates poll with 👍 👎 reactions
+# Command: poll Question → Creates poll with 👍 👎 reactions
 @bot.command()
 async def poll(ctx, *, question):
     embed = discord.Embed(title="📊 Poll", description=question)
