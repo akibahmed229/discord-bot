@@ -1,0 +1,10 @@
+name: Keep Render Alive
+on:
+  schedule:
+    - cron: '*/10 * * * *' # every 10 min
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl Render
+        run: curl -s https://discord-bot-21nb.onrender.com > /dev/null
