@@ -26,6 +26,7 @@
           discordpy
           python-dotenv
           flask
+          gunicorn
         ]);
 
       # Add environment variables to the shell environment
