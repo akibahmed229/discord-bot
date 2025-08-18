@@ -11,7 +11,7 @@ from server import app
 load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
 host = os.getenv("HOST")
-port = int(os.getenv("PORT"), 80)
+port = os.getenv("PORT")
 announce_channel_id = int(os.getenv("ANNOUNCE_CHANNEL_ID", 0))
 
 
