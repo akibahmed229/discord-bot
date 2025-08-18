@@ -59,8 +59,8 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    # Delete & warn if someone swears
-    if "fuck" "suck" "dick" in message.content.lower():
+    # Delete & warn if someone use bad word
+    if any(word in message.content.lower() for word in ["fuck" "suck" "dick"]):
         await message.delete()
         await message.channel.send(f"{message.author.mention}, don't use that word! 😠")
 
@@ -182,5 +182,4 @@ if __name__ == "__main__":
     # Start Flask in a thread
     threading.Thread(target=run_flask).start()
 
-    # Start Discord bot
-    bot.run(token=token, log_handler=handler, log_level=logging.DEBUG)
+    # Sturt Discord bot
