@@ -11,7 +11,7 @@ from server import app
 load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
 host = os.getenv("HOST")
-port = os.getenv("port")
+port = os.getenv("PORT")
 
 # 🔹 Setup logging (saves bot logs to discord.log)
 handler = logging.FileHandler(filename="discord.log", encoding="utf-8", mode="w")
@@ -127,7 +127,7 @@ async def poll(ctx, *, question):
 # run web server
 def run_flask():
     """Run Flask server in separate thread for Render health check"""
-    app.run(host=host, port=int(os.getenv("PORT", port)))
+    app.run(host=host, port=port)
 
 
 if __name__ == "__main__":
