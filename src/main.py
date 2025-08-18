@@ -110,6 +110,14 @@ async def on_member_ban(guild, user):
 # Event: When a member delete a message
 @bot.event
 async def on_message_delete(message):
+    # Ignore messages deleted by the bot itself
+    if message.author == bot.user:
+        return
+
+    # Optionally, ignore messages deleted by moderation (bad words)
+    if any(word in message.content.lower() for word in ["fuck", "suck", "dick"]):
+        return
+
     msg = f"{message.author} has deleted the last message"
     await message.channel.send(msg)
 
