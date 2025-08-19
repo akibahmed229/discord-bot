@@ -9,10 +9,12 @@ class GeneralEvents(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    # Event: Bot is online
     @commands.Cog.listener()
     async def on_ready(self):
         print(f"✅ Logged in as {self.bot.user.name}")
 
+    #  Event: When a new member joins
     @commands.Cog.listener()
     async def on_member_join(self, member):
         await member.send(f"Welcome to the Server! {member.name} 😄")
@@ -26,12 +28,14 @@ class GeneralEvents(commands.Cog):
         else:
             print("❌ Role 'Member' not found")
 
+    #  Event: Watch every message
     @commands.Cog.listener()
     async def on_message(self, message):
+        # Ignore bot's own messages
         if message.author == self.bot.user:
             return
 
-        # bad words
+        # Delete & warn if someone use bad word
         if any(word in message.content.lower() for word in ["fuck", "suck", "dick"]):
             await message.delete()
             await message.channel.send(
@@ -51,18 +55,21 @@ class GeneralEvents(commands.Cog):
             await message.channel.send(embed=embed)
             return
 
+    # Event: When a member leaves or is removed
     @commands.Cog.listener()
     async def on_member_remove(self, member):
         channel = self.bot.get_channel(announce_channel_id)
         if channel:
             await channel.send(f"👋 {member.mention} has left the server.")
 
+    # Event: When a member is banned
     @commands.Cog.listener()
     async def on_member_ban(self, guild, user):
         channel = self.bot.get_channel(announce_channel_id)
         if channel:
             await channel.send(f"❌ {user.mention} has been banned from the server.")
 
+    # Event: When a member delete a message
     @commands.Cog.listener()
     async def on_message_delete(self, message):
         if message.author == self.bot.user:

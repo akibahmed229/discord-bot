@@ -8,10 +8,12 @@ class GeneralCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    # Command: hello → greets the user
     @commands.command()
     async def hello(self, ctx):
         await ctx.send(f"Hello {ctx.author.mention}!")
 
+    # Command: assign @user RoleName → Admins can assign roles
     @commands.command()
     @commands.has_role("Administrator")
     async def assign(self, ctx, member: discord.Member, *, role_name: str):
@@ -24,6 +26,7 @@ class GeneralCommands(commands.Cog):
         else:
             await ctx.send("❌ Role doesn't exist")
 
+    # Command: remove @user RoleName → Admins can remove roles
     @commands.command()
     async def remove(self, ctx, member: discord.Member, *, role_name: str):
         role = discord.utils.get(ctx.guild.roles, name=role_name)
@@ -33,6 +36,7 @@ class GeneralCommands(commands.Cog):
         else:
             await ctx.send("❌ Role doesn't exist")
 
+    # Command: secret → Only Admins can use
     @commands.command()
     @commands.has_role("Administrator")
     async def secret(self, ctx):
@@ -43,14 +47,17 @@ class GeneralCommands(commands.Cog):
         if isinstance(error, commands.MissingRole):
             await ctx.send("❌ You don't have permission for this command!")
 
-    @commands.command()
-    async def dm(self, ctx, *, msg):
-        await ctx.author.send(f"You said: {msg}")
-
+    # Command: reply → Replies directly to user’s last message
     @commands.command()
     async def reply(self, ctx):
         await ctx.reply("This is a reply to your message!")
 
+    # Command: dm message → Sends DM to self
+    @commands.command()
+    async def dm(self, ctx, *, msg):
+        await ctx.author.send(f"You said: {msg}")
+
+    # Command: poll Question → Creates poll with 👍 👎 reactions
     @commands.command()
     async def poll(self, ctx, *, question):
         embed = discord.Embed(title="📊 Poll", description=question)

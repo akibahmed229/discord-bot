@@ -34,4 +34,4 @@ async def load_cogs():
         await bot.load_extension(ext)
 
 
-__all__ = ["bot", "handler", "token", "announce_channel_id", "load_cogs"]
+__all__ = ["bot", "token", "announce_channel_id", "load_cogs"]

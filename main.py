@@ -1,6 +1,5 @@
 import os
 import threading
-import logging
 from dotenv import load_dotenv
 from flask import Flask
 import asyncio
