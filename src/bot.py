@@ -1,17 +1,10 @@
 import discord
 from discord.ext import commands
 import logging
-from dotenv import load_dotenv
 import os
-import threading
-from server import app
-
 
 # 🔹 Load environment variables (like DISCORD_TOKEN from .env)
-load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
-host = os.getenv("HOST")
-port = os.getenv("PORT")
 announce_channel_id = int(os.getenv("ANNOUNCE_CHANNEL_ID", 0))
 prefix = os.getenv("PREFIX")
 
@@ -185,17 +178,3 @@ async def poll(ctx, *, question):
     poll_message = await ctx.send(embed=embed)
     await poll_message.add_reaction("👍")
     await poll_message.add_reaction("👎")
-
-
-# run web server
-def run_flask():
-    """Run Flask server in separate thread for Render health check"""
-    app.run(host=host, port=port)
-
-
-if __name__ == "__main__":
-    # Start Flask in a thread
-    threading.Thread(target=run_flask).start()
-
-    # Start Discord bot
-    bot.run(token=token, log_handler=handler, log_level=logging.DEBUG)
