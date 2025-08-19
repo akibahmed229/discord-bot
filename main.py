@@ -1,15 +1,14 @@
-# External imports
-from flask import Flask
-import threading
 import os
+import threading
 import logging
 from dotenv import load_dotenv
+from flask import Flask
+import asyncio
 
-# Load environment variables (like DISCORD_TOKEN from .env)
 load_dotenv()
 
-# internal imports
-from src import bot, handler, token
+# Internal imports
+from src.bot import bot, token, load_cogs
 
 host = os.getenv("HOST")
 port = os.getenv("PORT")
@@ -22,15 +21,15 @@ def home():
     return "Discord Bot 🆗!"
 
 
-# run web server
 def run_flask():
-    """Run Flask server in separate thread for Render health check"""
     app.run(host=host, port=port)
 
 
 if __name__ == "__main__":
-    # Start Flask in a thread
     threading.Thread(target=run_flask).start()
 
-    # Start Discord bot
-    bot.run(token=token, log_handler=handler, log_level=logging.DEBUG)
+    async def main():
+        await load_cogs()
+        await bot.start(token)
+
+    asyncio.run(main())
