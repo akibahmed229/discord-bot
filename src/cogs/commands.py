@@ -28,6 +28,7 @@ class GeneralCommands(commands.Cog):
 
     # Command: remove @user RoleName → Admins can remove roles
     @commands.command()
+    @commands.has_role("Administrator")
     async def remove(self, ctx, member: discord.Member, *, role_name: str):
         role = discord.utils.get(ctx.guild.roles, name=role_name)
         if role:
