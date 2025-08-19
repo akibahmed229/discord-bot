@@ -65,6 +65,61 @@ class GeneralCommands(commands.Cog):
         await poll_message.add_reaction("👍")
         await poll_message.add_reaction("👎")
 
+    # Command: ping -> check bot latency
+    @commands.command()
+    async def ping(self, ctx):
+        latency = round(self.bot.latency * 1000)  # Convert to ms
+        await ctx.send(f"🏓 Pong! Latency: {latency}ms")
+
+    # Command: invite → Generates server invite link
+    @commands.command()
+    async def invite(self, ctx):
+        invite_link = await ctx.channel.create_invite(
+            max_age=3600, max_uses=5, reason="Invite requested"  # 1 hour  # 5 uses
+        )
+        await ctx.send(f"🔗 Here is your invite link: {invite_link}")
+
+    # Command: serverinfo → Displays server information
+    @commands.command()
+    async def serverinfo(self, ctx):
+        guild = ctx.guild
+        embed = discord.Embed(
+            title=f"Server Info: {guild.name}",
+            description=guild.description or "No description",
+            color=discord.Color.blue(),
+        )
+        embed.add_field(name="Owner", value=guild.owner.mention, inline=True)
+        embed.add_field(name="Members", value=guild.member_count, inline=True)
+        embed.add_field(
+            name="Created At", value=guild.created_at.strftime("%Y-%m-%d"), inline=True
+        )
+        embed.set_thumbnail(url=guild.icon.url if guild.icon else None)
+        await ctx.send(embed=embed)
+
+    # Command: userinfo → Displays user information
+    @commands.command()
+    async def userinfo(self, ctx, member: discord.Member = None):
+        if member is None:
+            member = ctx.author
+        embed = discord.Embed(
+            title=f"User Info: {member.name}",
+            description=member.mention,
+            color=discord.Colour.blue(),
+        )
+        embed.add_field(name="ID", value=member.id, inline=True)
+        embed.add_field(
+            name="Joined At",
+            value=member.joined_at.strftime("%Y-%m-%d"),
+            inline=True,
+        )
+        embed.add_field(
+            name="Created At",
+            value=member.created_at.strftime("%Y-%m-%d"),
+            inline=True,
+        )
+        embed.set_thumbnail(url=member.avatar.url if member.avatar else None)
+        await ctx.send(embed=embed)
+
 
 async def setup(bot):
     await bot.add_cog(GeneralCommands(bot))
