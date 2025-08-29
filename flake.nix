@@ -15,25 +15,10 @@
     devShells.${system}.default = pkgs.mkShell {
       name = "Discord Bot Environment";
 
-      # Add packages to the shell environment
-      packages =
-        (with pkgs; [
-          python313
-        ])
-        ++ (with pkgs.python313Packages; [
-          virtualenv
-          pip
-          discordpy
-          python-dotenv
-          flask
-        ]);
-
-      # Add environment variables to the shell environment
-      env = {
-        LD_LIBRARY_PATH =
-          pkgs.lib.makeLibraryPath [
-          ];
-      };
+      packages = with pkgs; [
+        python313Full
+        python313Packages.uv
+      ];
 
       # Add shell hooks to the shell environment to be executed on entering the shell
       shellHook = ''
@@ -41,9 +26,15 @@
 
         # Persistent virtual environment setup
         if [[ ! -d ./venv ]]; then
-          python -m venv ./venv
+          # creating the .venv
+          uv sync
+
+          # setting up the .venv permissions
+          chmod +x ./.venv/bin/activate
         fi
-        source ./venv/bin/activate
+
+
+        source ./.venv/bin/activate
 
         # workaround for vscode's to find the venv
         venv="$(cd $(dirname $(which python)); cd ..; pwd)"
