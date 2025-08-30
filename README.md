@@ -20,14 +20,15 @@ A modular **Discord Bot** built with [discord.py](https://discordpy.readthedocs.
 1. Clone repo:
 
    ```bash
-   git clone <repo-url>
+   git clone https://github.com/akibahmed229/discord-bot.git
    cd discord-bot
    ```
 
 2. Install deps:
 
    ```bash
-   pip install -r requirements.txt
+   pip install uv
+   uv sync
    ```
 
 3. Create `.env`:
