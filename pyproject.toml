@@ -7,5 +7,5 @@ requires-python = ">=3.13"
 dependencies = [
     "discord.py",
     "python-dotenv",
-    "flask",
+    "fastapi[standard]>=0.116.1",
 ]

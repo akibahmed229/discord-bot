@@ -1,1 +1,4 @@
-from .bot import bot, token, announce_channel_id, load_cogs
+from .bot import announce_channel_id, DiscordBot
+from .api import router
+
+__all__ = ["announce_channel_id", "DiscordBot", "router"]

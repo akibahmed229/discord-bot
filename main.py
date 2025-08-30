@@ -1,34 +1,39 @@
-import os
-import threading
-from dotenv import load_dotenv
-from flask import Flask
 import asyncio
-
-load_dotenv()
+import os
+import uvicorn
+from dotenv import load_dotenv
+from fastapi import FastAPI
 
 # Internal imports
-from src.bot import bot, token, load_cogs
+from src.bot import DiscordBot
+from src.api import router as health_router
 
+
+# Load env
+load_dotenv()
 host = os.getenv("HOST")
-port = os.getenv("PORT")
+port = int(os.getenv("PORT", 8000))
+token = os.getenv("DISCORD_TOKEN")
 
-app = Flask("")
-
-
-@app.route("/")
-def home():
-    return "Discord Bot 🆗!"
+# Create FastAPI app
+app = FastAPI()
+app.include_router(health_router)
 
 
-def run_flask():
-    app.run(host=host, port=port)
+async def start_fastapi():
+    """Run FastAPI inside same event loop"""
+    config = uvicorn.Config(app=app, host=host, port=port, log_level="info")
+    server = uvicorn.Server(config)
+
+    await server.serve()
+
+
+async def main():
+    bot = DiscordBot()
+
+    # Run FastAPI + Discord bot concurrently
+    await asyncio.gather(bot.start(token), start_fastapi())
 
 
 if __name__ == "__main__":
-    threading.Thread(target=run_flask).start()
-
-    async def main():
-        await load_cogs()
-        await bot.start(token)
-
     asyncio.run(main())

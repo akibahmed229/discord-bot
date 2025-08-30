@@ -9,11 +9,6 @@ class GeneralEvents(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    # Event: Bot is online
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print(f"✅ Logged in as {self.bot.user.name}")
-
     #  Event: When a new member joins
     @commands.Cog.listener()
     async def on_member_join(self, member):

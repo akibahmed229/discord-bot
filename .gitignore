@@ -12,6 +12,8 @@ venv/
 # cache
 src/__pycache__/*
 src/cogs/__pycache__/*
+src/api/__pycache__/*
+__pycache__/*
 
 # Logs
 *.log
