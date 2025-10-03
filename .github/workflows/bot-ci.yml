@@ -1,45 +1,32 @@
-name: Discord Bot CI
+name: CI
 
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout code
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Setup Python
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      # 3. Create fresh venv
       - name: Create venv
-        run: |
-          if [ -d .venv ]; then
-            rm -rf .venv
-          fi
-          python3 -m venv .venv
-          source .venv/bin/activate
+        run: python3 -m venv .venv
 
-      # 4. Install uv
       - name: Install uv
         run: pip install uv
 
-      # 5. Sync dependencies
-      - name: Sync with uv
+      - name: Sync deps
         run: uv sync
 
-      # 6. Run bot and check if it starts
-      - name: Run Discord bot
+      - name: Run bot test
         env:
           ANNOUNCE_CHANNEL_ID: ${{ secrets.ANNOUNCE_CHANNEL_ID }}
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
@@ -47,13 +34,14 @@ jobs:
           PORT: ${{ secrets.PORT }}
           PREFIX: ${{ secrets.PREFIX }}
         run: |
-          source .venv/bin/activate
+          . .venv/bin/activate
           python main.py &
           BOT_PID=$!
           sleep 60
           if ps -p $BOT_PID > /dev/null; then
               echo "✅ Bot started successfully"
               kill $BOT_PID
+              exit 0
           else
               echo "❌ Bot failed to start"
               exit 1
