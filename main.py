@@ -1,13 +1,13 @@
 import asyncio
 import os
+
 import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
+from src.api import router as health_router
 # Internal imports
 from src.bot import DiscordBot
-from src.api import router as health_router
-
 
 # Load env
 load_dotenv()

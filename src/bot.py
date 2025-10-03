@@ -1,8 +1,9 @@
-import discord
-import platform
-from discord.ext import commands
 import logging
 import os
+import platform
+
+import discord
+from discord.ext import commands
 
 # 🔹 Load environment variables (like DISCORD_TOKEN from .env)
 prefix = os.getenv("PREFIX")
